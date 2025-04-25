@@ -73,13 +73,13 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
     };
 
 
-    const onProviderSignUp = (value: "github" | "google") => {
-        setPending(true);
-        signIn(value)
-            .finally(() => {
-                setPending(false);
-            })
-    }
+    // const onProviderSignUp = (value: "github" | "google") => {
+    //     setPending(true);
+    //     signIn(value)
+    //         .finally(() => {
+    //             setPending(false);
+    //         })
+    // }
     return (
         <Card className="w-full h-full p-8 ">
             <CardHeader className="px-0 pt-0">
