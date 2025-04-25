@@ -20,8 +20,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
     const { signIn } = useAuthActions();
 
     const [fname, setFname] = useState("");
-    const [lname, setLname] = useState("");
-    // const [name, setName] = useState("");
+    const [lname, setLname] = useState(""); 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [identificationCode, setIdentificationCode] = useState('');
@@ -58,28 +57,20 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
                 flow: "signUp",
             });
 
-        } catch (error: any) {
-            const message = error?.message || "";
-            if (message.includes("already exists")) {
-                setError("อีเมลนี้ถูกใช้งานแล้ว");
-            } else if (message.includes("Password")) {
-                setError("รหัสผ่านไม่ผ่านเงื่อนไข");
-            } else {
-                setError("เกิดข้อผิดพลาด! โปรดลองใหม่"+message);
-            }
+        } catch (error) {
+            // const message = e?.message+'' || "";
+            // if (message.includes("already exists")) {
+            //     setError("อีเมลนี้ถูกใช้งานแล้ว");
+            // } else if (message.includes("Password")) {
+            //     setError("รหัสผ่านไม่ผ่านเงื่อนไข");
+            // } else {
+                setError("เกิดข้อผิดพลาด! โปรดลองใหม่"+error);
+            // }
         } finally {
             setPending(false);
         }
     };
-
-
-    // const onProviderSignUp = (value: "github" | "google") => {
-    //     setPending(true);
-    //     signIn(value)
-    //         .finally(() => {
-    //             setPending(false);
-    //         })
-    // }
+ 
     return (
         <Card className="w-full h-full p-8 ">
             <CardHeader className="px-0 pt-0">
@@ -152,29 +143,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
                         สมัครสมาชิก
                     </Button>
                 </form>
-                <Separator />
-                <div className="flex flex-col gap-y-3">
-                    {/* <Button
-                        disabled={pending}
-                        onClick={() => { }}
-                        variant={"outline"}
-                        size={"lg"}
-                        className="cursor-pointer w-full relative"
-                    >
-                        <FcGoogle className="size-5 absolute top-2.5 left-2.5" />
-                        Continue with Google
-                    </Button> */}
-                    {/* <Button
-                        disabled={pending}
-                        onClick={() => onProviderSignUp("github")}
-                        variant={"outline"}
-                        size={"lg"}
-                        className="cursor-pointer w-full relative"
-                    >
-                        <FaGithub className="size-5 absolute top-2.5 left-2.5" />
-                        Continue with Github
-                    </Button> */}
-                </div>
+                <Separator /> 
                 <p className="text-xs text-muted-foreground">
                     คุณมีบัญชีอยู่แล้ว?&nbsp;
                     <span

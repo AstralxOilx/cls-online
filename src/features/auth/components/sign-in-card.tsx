@@ -31,14 +31,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                 setPending(false);
             })
     }
-
-    // const onProviderSignIn = (value: "github" | "google") => {
-    //     setPending(true);
-    //     signIn(value)
-    //         .finally(() => {
-    //             setPending(false);
-    //         })
-    // }
+ 
 
     return (
         <Card className="w-full h-full p-8 ">
