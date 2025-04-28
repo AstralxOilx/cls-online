@@ -1,11 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator"; 
+import { Separator } from "@/components/ui/separator";
 import { SignInFlow } from "../types";
 import { useState } from "react";
 import { TriangleAlert } from "lucide-react";
-import { useAuthActions } from "@convex-dev/auth/react"; 
+import { useAuthActions } from "@convex-dev/auth/react";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 
 
@@ -19,8 +26,9 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
 
     const { signIn } = useAuthActions();
 
-    const [fname, setFname] = useState("");
-    const [lname, setLname] = useState(""); 
+    const [fname, setFname] = useState('');
+    const [lname, setLname] = useState('');
+    const [role, setRole] = useState(''); 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [identificationCode, setIdentificationCode] = useState('');
@@ -31,10 +39,16 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
     const onPasswordSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setPending(true);
-        setError(""); 
+        setError("");
 
         if (!fname && !lname) {
             setError("กรุณาระบุชื่อ และนามสกุลให้ครบถ้วน");
+            setPending(false);
+            return;
+        }
+
+        if (password.length < 6) {
+            setError("รหัสผ่าน ต้องมีอย่างน้อย 6 ตัวอักษร");
             setPending(false);
             return;
         }
@@ -45,32 +59,25 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
             return;
         }
 
+
         try {
-            await signIn("password", {
+            const sessionId = await signIn("password", {
                 fname,
                 lname,
                 email,
-                role:"student",
-                gender:"male",
+                role: role, 
                 identificationCode,
                 password,
                 flow: "signUp",
-            });
-
+            })
+ 
         } catch (error) {
-            // const message = e?.message+'' || "";
-            // if (message.includes("already exists")) {
-            //     setError("อีเมลนี้ถูกใช้งานแล้ว");
-            // } else if (message.includes("Password")) {
-            //     setError("รหัสผ่านไม่ผ่านเงื่อนไข");
-            // } else {
-                setError("เกิดข้อผิดพลาด! โปรดลองใหม่"+error);
-            // }
-        } finally {
+            setError("อีเมล์ถูกใช้แล้ว");
             setPending(false);
         }
+
     };
- 
+
     return (
         <Card className="w-full h-full p-8 ">
             <CardHeader className="px-0 pt-0">
@@ -80,13 +87,13 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
                 </CardDescription>
             </CardHeader>
             {!!error && (
-                <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-destructive mb-6">
+                <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-destructive mb-2">
                     <TriangleAlert className="size-4" />
                     <p>{error}</p>
                 </div>
             )}
             <CardContent className="space-y-5 px-0 pb-0">
-                <form onSubmit={onPasswordSignUp} className="space-y-2.5">
+                <form onSubmit={onPasswordSignUp} className="space-y-2.5"> 
                     <Input
                         disabled={pending}
                         value={fname}
@@ -102,6 +109,15 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
                         type="text"
                         required
                     />
+                    <Select value={role} onValueChange={setRole} required>
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="บทบาท" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="student">นักเรียน/นักศึกษา</SelectItem>
+                            <SelectItem value="teacher">ครู/อาจารย์</SelectItem>
+                        </SelectContent>
+                    </Select>
                     <Input
                         disabled={pending}
                         value={identificationCode}
@@ -143,7 +159,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
                         สมัครสมาชิก
                     </Button>
                 </form>
-                <Separator /> 
+                <Separator />
                 <p className="text-xs text-muted-foreground">
                     คุณมีบัญชีอยู่แล้ว?&nbsp;
                     <span
