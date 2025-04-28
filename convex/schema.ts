@@ -16,7 +16,7 @@ const schema = defineSchema({
       phone: v.optional(v.string()),
       phoneVerificationTime: v.optional(v.number()),
       isAnonymous: v.optional(v.boolean()),
-
+      gender: v.optional(v.string()),
       // การยืนยันตัวตน
       identificationCode: v.string(),
 
