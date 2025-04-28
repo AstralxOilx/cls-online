@@ -3,21 +3,13 @@ import { Id } from "../../../../convex/_generated/dataModel";
 import { AlertCircle, ChevronDownIcon, LoaderCircle, MailIcon, UserRoundPlus, XIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import { useUpdateMember } from "../api/use-update-member";
+import Link from "next/link"; 
 import { useRemoveChannelMember } from "../api/use-channel-remove-member";
 import { useCurrentMember } from "../api/use-current-member";
 import { toast } from "sonner";
 import { useConfirm } from "@/hooks/use-confirm";
 import { useRouter } from "next/navigation";
-
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuTrigger,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
-} from "@/components/ui/dropdown-menu";
+ 
 import { useClassroomId } from "@/hooks/use-classroom-id";
 import { useGetChannelMember } from "../api/use-get-channel-member";
 import { useCurrentUser } from "@/features/auth/api/use-current-user";
